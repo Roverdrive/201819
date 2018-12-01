@@ -89,28 +89,24 @@ public class RobotNavigator {
         Thread.sleep(time);
         stopMotor();
     }
-
-    public void moveRightTime(double power, long time) throws InterruptedException {
-        moveRight(power);
-        Thread.sleep(time);
-        stopMotor();
-    }
-
-    public void moveLeftTime(double power, long time) throws InterruptedException {
-        moveLeft(power);
-        Thread.sleep(time);
-        stopMotor();
-    }
     public void shiftRightTime(double power, long time) throws InterruptedException {
         shiftRight(power);
         Thread.sleep(time);
-        stopMotor();
-    }
+        stopMotor();}
+
     public void shiftLeftTime(double power, long time) throws InterruptedException {
         shiftLeft(power);
         Thread.sleep(time);
-        stopMotor();
-    }
+        stopMotor();}
+    public void turnRightTime(double power, long time) throws InterruptedException {
+        turnRight(power);
+        Thread.sleep(time);
+        stopMotor(); }
+    public void turnLefttTime(double power, long time) throws InterruptedException {
+        turnLeft(power);
+        Thread.sleep(time);
+        stopMotor(); }
+
 
     /* Set poer to both top left and rear left motor */
     public void  setLeftMotorPower(double power) {

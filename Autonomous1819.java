@@ -17,11 +17,14 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 public class Autonomous1819 extends LinearOpMode {
     private RobotNavigator robotNavigator;
     private GoldTensorFlowObjectDetection tensorFlow;
-    private ConceptVuforiaNavRoverRuckus vuforia;
+    // TODO: Measure distance
+    // private ConceptVuforiaNavRoverRuckus vuforia;
     private Lander lander;
 
     @Override
     public void runOpMode() {
+        /*
+        // TODO: remove
         double forwardPower = 0.5;
         int forwardTime = 1000;
         double leftPower = 0.5;
@@ -29,15 +32,16 @@ public class Autonomous1819 extends LinearOpMode {
 
         double armPower = 0.25;
         int armTime = 1000;
+        */
 
         robotNavigator = new RobotNavigator();
         robotNavigator.init(hardwareMap);
-        // Get the gold mineral position
+        // Initialize the gold mineral position detector
         tensorFlow = new GoldTensorFlowObjectDetection();
         tensorFlow.init(hardwareMap);
 
         // Take picture to determine the robot location after landing.
-        vuforia = new ConceptVuforiaNavRoverRuckus();
+        // vuforia = new ConceptVuforiaNavRoverRuckus();
 
         // Lander object initialization
         lander = new Lander();
@@ -46,22 +50,27 @@ public class Autonomous1819 extends LinearOpMode {
         telemetry.addData("Status:", "initialized");
         telemetry.update();
 
+        /* TODO now that there is a worm gear, this can be removed
         // Power up the motor and move lander up when init button is pressed
         lander.moveUp(1);
+        */
 
         waitForStart();
 
         try {
+            // TODO lower lander
+
             // Wait and stop the motor. Spring tension will bring robot down slowly and lander hook should be up.
             Thread.sleep(1000);
-            lander.stopMotor();
+//            lander.moveDown(1);
             Thread.sleep(3000);
 
             // Move the robot left and wait for 1 second.
             robotNavigator.shiftLeftTime(1,1000);
+            Thread.sleep(1000);
             robotNavigator.moveForwardTime(1,1000);
+            Thread.sleep(1000);
             robotNavigator.turnRightTime(1,2000);
-
             Thread.sleep(1000);
 
 
@@ -69,7 +78,8 @@ public class Autonomous1819 extends LinearOpMode {
             // Move the robot forward and wait for 1 second
             //robotNavigator.moveForwardTime(1,1000);
 
-            while (opModeIsActive()) {
+            int count = 0;
+            while (opModeIsActive() && count < 5) {
                 // Get the gold mineral position (Left, Center or Right).
                 String goldLocation = tensorFlow.getGoldLocation() ;
 
@@ -77,12 +87,17 @@ public class Autonomous1819 extends LinearOpMode {
                     robotNavigator.moveForwardTime(1,2000);
                     break;
                 } else if(goldLocation.equals("Left")) {
-                    robotNavigator.shiftLeftTime(1, 500);
+                    robotNavigator.shiftLeftTime(1, 2000);
+                    robotNavigator.moveForwardTime(1,2000);
                     break;
                 } else if (goldLocation.equals(("Right"))){
-                    robotNavigator.shiftRightTime(1,500);
+                    robotNavigator.shiftRightTime(1,2000);
+                    robotNavigator.moveForwardTime(1,2000);
                     break;
                 }
+
+                Thread.sleep(1000);
+                count++;
          }
 
             Thread.sleep(1000);

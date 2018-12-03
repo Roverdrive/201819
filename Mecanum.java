@@ -5,8 +5,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
 
 
-
-@TeleOp
+@TeleOp(name="MecanumManual", group="manual")
 public class Mecanum extends LinearOpMode {
 
     private DcMotor topl;
@@ -18,8 +17,7 @@ public class Mecanum extends LinearOpMode {
     private DcMotor winch;
     private Servo tilt1;
     private Servo tilt2;
-
-
+    private RobotNavigator robotnav;
 
     @Override
     public void runOpMode() {
@@ -29,13 +27,20 @@ public class Mecanum extends LinearOpMode {
         rearl = hardwareMap.get(DcMotor.class, "Rearl");
         rearr = hardwareMap.get(DcMotor.class, "Rearr");
         lander= hardwareMap.get(DcMotor.class, "Lander");
-        //grabber = hardwareMap.get(DcMotor.class, "Grabber");
-       // winch = hardwareMap.get(DcMotor.class, "Winch");
-        //tilt1 = hardwareMap.get(Servo.class, "Tilt1");
-        //tilt2 = hardwareMap.get(Servo.class, "Tilt2");
+
+        grabber = hardwareMap.get(DcMotor.class, "Grabber");
+
+       winch = hardwareMap.get(DcMotor.class, "Winch");
+        tilt1 = hardwareMap.get(Servo.class, "Tilt1");
+        tilt2 = hardwareMap.get(Servo.class, "Tilt2");
+
+        robotnav = new RobotNavigator();
 
 
         waitForStart();
+
+
+
 
         double tgtPower1 = 0;
         double tgtPower2 = 0;
@@ -49,7 +54,7 @@ public class Mecanum extends LinearOpMode {
         double Rbrmultiplier=0.5;
         double Wnchmultiplier=0.5;
         while (opModeIsActive()) {
-            // Gamepad 1            // MotorTest1
+           /* // Gamepad 1            // MotorTest1
             tgtPower1 = multiPlier1 * this.gamepad1.left_stick_y;
             topl.setPower(tgtPower1);
             // MotorTest2
@@ -104,6 +109,19 @@ public class Mecanum extends LinearOpMode {
                 rearr.setPower(tgtPower4);
                 //__________
             }
+            */
+            if (gamepad1.left_stick_y> 0){
+                robotnav.moveForward(0.5);}
+            if (gamepad1.left_stick_y<0){
+                robotnav.moveBackward(0.5);}
+            if(gamepad1.left_stick_x>0){
+                robotnav.shiftRight(0.5);}
+            if (gamepad1.left_stick_x<0){
+                robotnav.shiftLeft(0.5); }
+            if (gamepad1.right_stick_x>0){
+                robotnav.turnRight(0.5); }
+            if (gamepad1.right_stick_x<0){
+                robotnav.turnLeft(0.5);}
             if(gamepad2.right_trigger!=0) {
                 tgtPower5=-multiPlier2*this.gamepad2.right_trigger;
                 lander.setPower(tgtPower5);

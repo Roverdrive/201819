@@ -19,7 +19,8 @@ public class RobotNavigator {
         topr= hardwareMap.get(DcMotor.class, "Topr");
         rearl = hardwareMap.get(DcMotor.class, "Rearl");
         rearr = hardwareMap.get(DcMotor.class, "Rearr");
-        //leftMotor.setDirection(DcMotor.Direction.REVERSE);
+        topr.setDirection(DcMotor.Direction.REVERSE);
+        rearr.setDirection(DcMotor.Direction.REVERSE);
     }
 
     public void setRunWithEncoderMode() {
@@ -67,15 +68,15 @@ public class RobotNavigator {
     public void turnRight (double power){
         topl.setPower(power);
         topr.setPower(-power);
-        rearl.setPower(-power);
-        rearr.setPower(power);
+        rearl.setPower(power);
+        rearr.setPower(-power);
     }
 
     public void turnLeft (double power){
         topl.setPower(-power);
         topr.setPower(power);
-        rearl.setPower(power);
-        rearr.setPower(-power);
+        rearl.setPower(-power);
+        rearr.setPower(power);
     }
 
     public void moveForwardTime(double power, long time) throws InterruptedException {

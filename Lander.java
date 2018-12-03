@@ -26,3 +26,77 @@ public class Lander {
         lander.setPower(0);
     }
 }
+
+
+
+// Set both motor to run with Encoder
+//robotNavigator.setRunWithEncoderMode();
+
+                 // Testing Encoder Mode
+
+                // Step through each leg of the path,
+                // Note: Reverse movement is obtained by setting a negative distance (not speed)
+                //encoderDrive(DRIVE_SPEED,  DRIVE_SPEED,24,  24, 10.0);  // S1: Forward 24 Inches with 5 Sec timeout
+                //encoderDrive(TURN_SPEED,  TURN_SPEED, -18,  18, 10.0);
+
+                /*
+private ElapsedTime runtime = new ElapsedTime();
+
+static final double     COUNTS_PER_MOTOR_REV    = 1440 ;    // eg: TETRIX Motor Encoder
+static final double     DRIVE_GEAR_REDUCTION    = 0.5 ;     // This is < 1.0 if geared UP
+// 2.0 : 6 gives 27 inches.
+static final double     WHEEL_DIAMETER_INCHES   = 4.0 ;     // For figuring circumference
+static final double     COUNTS_PER_INCH         = (COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION) /
+        (WHEEL_DIAMETER_INCHES * 3.1415);
+static final double     DRIVE_SPEED             = 0.1;
+static final double     TURN_SPEED              = 0.1;
+
+*/
+
+/*
+ *  Method to perfmorm a relative move, based on encoder counts.
+ *  Encoders are not reset as the move is based on the current position.
+ *  Move will stop if any of three conditions occur:
+ *  1) Move gets to the desired position
+ *  2) Move runs out of time
+ *  3) Driver stops the opmode running.
+ */
+/* TODO : code complete
+public void encoderDrive(double speed, double moveInches, double timeoutS) {
+        int newTarget;
+
+        // Determine new target position, and pass to motor controller
+        newTarget = getCurrentPosition() + (int)(moveInches * COUNTS_PER_INCH);
+
+        setTargetPosition(newTarget);
+
+        // Turn On RUN_TO_POSITION
+        setRunToPosition();
+
+        // reset the timeout time and start motion.
+        runtime.reset();
+        setPower(speed);
+
+        // keep looping while we are still active, and there is time left, and both motors are running.
+        // Note: We use (isBusy() && isBusy()) in the loop test, which means that when EITHER motor hits
+        // its target position, the motion will stop.  This is "safer" in the event that the robot will
+        // always end the motion as soon as possible.
+        // However, if you require that BOTH motors have finished their moves before the robot continues
+        // onto the next step, use (isBusy() || isBusy()) in the loop test.
+
+        // Be in while loop before Stopping motor.
+        while (opModeIsActive() &&
+        (runtime.seconds() < timeoutS) && isMotorBusy() ) {
+
+        getMotorCurrentPosition();
+
+        }
+
+        // Stop all motion;
+        stopMotor();
+
+        // Turn off RUN_TO_POSITION
+        setRunWithEncoderMode();
+        }
+
+        */

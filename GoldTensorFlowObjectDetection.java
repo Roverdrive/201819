@@ -87,11 +87,11 @@ public class GoldTensorFlowObjectDetection {
 
     String goldLocation = "";
 
-    public void init(HardwareMap hardwareMap) {
+    public void init(HardwareMap hardwareMap1) {
 
         // The TFObjectDetector uses the camera frames from the VuforiaLocalizer, so we create that
         // first.
-        hardwareMap = hardwareMap;
+        this.hardwareMap = hardwareMap1;
 
         initVuforia();
 
@@ -106,8 +106,6 @@ public class GoldTensorFlowObjectDetection {
         if (tfod != null) {
             tfod.activate();
         }
-
-
     }
 
     public String getGoldLocation() {

@@ -98,16 +98,20 @@ public class RobotNavigator {
     public void shiftLeftTime(double power, long time) throws InterruptedException {
         shiftLeft(power);
         Thread.sleep(time);
-        stopMotor();}
+        stopMotor();
+    }
+
     public void turnRightTime(double power, long time) throws InterruptedException {
         turnRight(power);
         Thread.sleep(time);
-        stopMotor(); }
+        stopMotor();
+    }
+
     public void turnLefttTime(double power, long time) throws InterruptedException {
         turnLeft(power);
         Thread.sleep(time);
-        stopMotor(); }
-
+        stopMotor();
+    }
 
     /* Set poer to both top left and rear left motor */
     public void  setLeftMotorPower(double power) {
@@ -151,6 +155,21 @@ public class RobotNavigator {
         //rearr.setPower(power);
     }
 
+    public void setMotorDirection() {
+        topl.setDirection(DcMotor.Direction.FORWARD); // Set to REVERSE if using AndyMark motors
+        rearl.setDirection(DcMotor.Direction.REVERSE);// Set to FORWARD if using AndyMark motors
+        topr.setDirection(DcMotor.Direction.FORWARD); // Set to REVERSE if using AndyMark motors
+        rearr.setDirection(DcMotor.Direction.REVERSE);// Set to FORWARD if using AndyMark motors
+    }
+
+    /* TODO: See how motor are connected : Else make change direction */
+    public void setLeftMotorForwardDirection() {
+        topl.setDirection(DcMotor.Direction.FORWARD);
+        rearl.setDirection(DcMotor.Direction.FORWARD);
+        topr.setDirection(DcMotor.Direction.FORWARD);
+        rearr.setDirection(DcMotor.Direction.FORWARD);
+    }
+
     // TODO : Check if we need this code
     public void setLeftMotorTargetPosition(int position) {
         //leftMotor.setTargetPosition(position);
@@ -189,21 +208,6 @@ public class RobotNavigator {
 
     public void setMotorDirection(DcMotor motor, DcMotor.Direction direction) {
         motor.setDirection(direction); // Set to REVERSE if using AndyMark motor
-    }
-
-    public void setMotorDirection() {
-        topl.setDirection(DcMotor.Direction.FORWARD); // Set to REVERSE if using AndyMark motors
-        rearl.setDirection(DcMotor.Direction.REVERSE);// Set to FORWARD if using AndyMark motors
-        topr.setDirection(DcMotor.Direction.FORWARD); // Set to REVERSE if using AndyMark motors
-        rearr.setDirection(DcMotor.Direction.REVERSE);// Set to FORWARD if using AndyMark motors
-    }
-
-    /* TODO: See how motor are connected : Else make change direction */
-    public void setLeftMotorForwardDirection() {
-        topl.setDirection(DcMotor.Direction.FORWARD);
-        rearl.setDirection(DcMotor.Direction.FORWARD);
-        topr.setDirection(DcMotor.Direction.FORWARD);
-        rearr.setDirection(DcMotor.Direction.FORWARD);
     }
 
 }

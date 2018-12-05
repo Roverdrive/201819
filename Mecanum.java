@@ -30,7 +30,7 @@ public class Mecanum extends LinearOpMode {
 
         grabber = hardwareMap.get(DcMotor.class, "Grabber");
 
-       winch = hardwareMap.get(DcMotor.class, "Winch");
+        winch = hardwareMap.get(DcMotor.class, "Winch");
         tilt1 = hardwareMap.get(Servo.class, "Tilt1");
         tilt2 = hardwareMap.get(Servo.class, "Tilt2");
 
@@ -110,22 +110,34 @@ public class Mecanum extends LinearOpMode {
                 //__________
             }
             */
+           double motorPower = 0;
+
             if (gamepad1.left_stick_y> 0){
-                robotnav.moveForward(0.5);}
+                motorPower = multiPlier1 * gamepad1.left_stick_y;
+                robotnav.moveForward(motorPower);}
             if (gamepad1.left_stick_y<0){
-                robotnav.moveBackward(0.5);}
+                motorPower = multiPlier1 * gamepad1.left_stick_y;
+                robotnav.moveBackward(motorPower);
+            }
             if(gamepad1.left_stick_x>0){
-                robotnav.shiftRight(0.5);}
+                motorPower = multiPlier1 * gamepad1.left_stick_x;
+                robotnav.shiftRight(motorPower);}
             if (gamepad1.left_stick_x<0){
-                robotnav.shiftLeft(0.5); }
+                motorPower = multiPlier1 * gamepad1.left_stick_x;
+                robotnav.shiftLeft(motorPower); }
             if (gamepad1.right_stick_x>0){
-                robotnav.turnRight(0.5); }
+                motorPower = multiPlier1 * gamepad1.right_stick_x;
+                robotnav.turnRight(motorPower);
+            }
             if (gamepad1.right_stick_x<0){
-                robotnav.turnLeft(0.5);}
-            if(gamepad2.right_trigger!=0) {
-                tgtPower5=-multiPlier2*this.gamepad2.right_trigger;
+                motorPower = multiPlier1 * gamepad1.right_stick_x;
+                robotnav.turnLeft(motorPower);
+            }
+           /* if(gamepad2.right_trigger!=0) {
+                tgtPower5=multiPlier2*this.gamepad2.right_trigger;
                 lander.setPower(tgtPower5);
             }
+            */
 
           /*  if(gamepad2.right_stick_y!=0) {
                 RbrPower = Rbrmultiplier * this.gamepad2.right_stick_y;

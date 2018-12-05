@@ -66,11 +66,11 @@ public class Autonomous1819 extends LinearOpMode {
             Thread.sleep(3000);
 
             // Move the robot left and wait for 1 second.
-            robotNavigator.shiftLeftTime(1,1000);
+            robotNavigator.shiftLeftTime(1,100);
             Thread.sleep(1000);
-            robotNavigator.moveForwardTime(1,1000);
+            robotNavigator.moveForwardTime(1,150);
             Thread.sleep(1000);
-            robotNavigator.turnRightTime(1,2000);
+            robotNavigator.shiftRightTime(1,2000);
             Thread.sleep(1000);
 
 
@@ -104,6 +104,9 @@ public class Autonomous1819 extends LinearOpMode {
 
             // Shutdown Tensorflow as we are not going to use in manual mode.
             tensorFlow.shutdown();
+
+            robotNavigator.moveBackwardTime(1,2000);
+
 
 
         } catch (Exception e) {

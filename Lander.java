@@ -5,7 +5,7 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 /**
- * This is a lander clasds having following functions
+ * This is a lander classs having following functions
  * Move lander motor up and down and stop the motor
  */
 public class Lander {
@@ -13,11 +13,12 @@ public class Lander {
 
     public void init(HardwareMap hardwareMap) {
         lander = hardwareMap.get(DcMotor.class, "Lander");
+        //setRunWithEncoderMode();
         //leftMotor.setDirection(DcMotor.Direction.REVERSE);
     }
 
     public void moveDown(double power) {
-        lander.setPower(power);
+        lander.setPower(-power);
     }
 
     public void moveUp(double power) {
@@ -45,10 +46,12 @@ public class Lander {
     }
 
     public void moveDownUsingEncoder(double speed, double inches, double timeOutS) {
-        encoderDrive(speed, inches, timeOutS);
+        setRunWithEncoderMode();
+        encoderDrive(speed, -inches, timeOutS);
     }
 
     public void moveUpUsingEncoder(double speed, double inches, double timeOutS) {
+        setRunWithEncoderMode();
         encoderDrive(speed, inches, timeOutS);
     }
 
@@ -90,14 +93,14 @@ static final double     DRIVE_SPEED             = 0.1;
 static final double     TURN_SPEED              = 0.1;
 
 /*
- *  Method to perfmorm a relative move, based on encoder counts.
+ *  Method to perform a relative move, based on encoder counts.
  *  Encoders are not reset as the move is based on the current position.
  *  Move will stop if any of three conditions occur:
  *  1) Move gets to the desired position
  *  2) Move runs out of time
  */
 
-public void encoderDrive(double speed, double moveInches, double timeoutS) {
+    public void encoderDrive(double speed, double moveInches, double timeoutS) {
         int newTarget;
 
         // Determine new target position, and pass to motor controller
@@ -110,14 +113,18 @@ public void encoderDrive(double speed, double moveInches, double timeoutS) {
 
         // reset the timeout time and start motion.
         runtime.reset();
-        lander.setPower(speed);
 
+        // Be in while loop before Stopping motor.
+        while ((runtime.seconds() < timeoutS) ||
+                (lander.getCurrentPosition() >= newTarget)) {
+            lander.setPower(speed);
+        }
         // TODO: Check
         // Stop all motion;
         stopMotor();
 
         // Turn off RUN_TO_POSITION
-        setRunWithEncoderMode();
+        // setRunWithEncoderMode();
 }
 
 }

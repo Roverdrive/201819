@@ -9,7 +9,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 public class LanderTest extends LinearOpMode {
 
     private Lander lander;
-    static final double     DRIVE_SPEED  = 0.1;
+    static final double     DRIVE_SPEED  = 0.5;
     @Override
     public void runOpMode() {
 
@@ -21,13 +21,12 @@ public class LanderTest extends LinearOpMode {
         while (opModeIsActive()) {
 
             if (gamepad1.y) {
-                lander.moveDownUsingEncoder(DRIVE_SPEED, 24,  10.0);  // S1: Forward 24 Inches with 5 Sec timeout
+                lander.moveDownUsingEncoder(DRIVE_SPEED, 2,  10.0);  // S1: Forward 24 Inches with 5 Sec timeout
             }
             if (gamepad1.a) {
-                lander.moveUpUsingEncoder(DRIVE_SPEED, -24, 10.0);  // S1: Forward 24 Inches with 5 Sec timeout;
+                lander.moveUpUsingEncoder(DRIVE_SPEED, 2, 10.0);  // S1: Forward 24 Inches with 5 Sec timeout;
             }
-            lander.stopMotor();
-
+            //lander.stopMotor()
             }
         /*
         while (opModeIsActive()) {

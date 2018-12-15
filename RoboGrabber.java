@@ -1,75 +1,99 @@
 package org.firstinspires.ftc.team13180;
 
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
-import com.qualcomm.robotcore.util.ElapsedTime;
+
+import static java.lang.Math.abs;
 
 /**
  * This is a RoboGrabber classs having following functions
  * TODO:
  */
 public class RoboGrabber {
+
+    private LinearOpMode opMode;
+
+    private DcMotor spinner;
     private DcMotor grabber;
-    private DcMotor winch;
     private Servo tilt1;
     private Servo tilt2;
 
-
-    public void init(HardwareMap hardwareMap) {
-        grabber = hardwareMap.get(DcMotor.class, "Grabber");
-        winch = hardwareMap.get(DcMotor.class, "Winch");
-        tilt1 = hardwareMap.get(Servo.class, "Tilt1");
-        tilt2 = hardwareMap.get(Servo.class, "Tilt2");
-        // TODO: Set motor direction or test
+    public RoboGrabber (LinearOpMode op) {
+        opMode = op;
     }
 
-    public void moveGrabberDown(double power) {
-        grabber.setPower(-power);
+    public void init() {
+        spinner = opMode.hardwareMap.get(DcMotor.class, "Grabber");
+        spinner.setDirection(DcMotorSimple.Direction.REVERSE);
+        grabber = opMode.hardwareMap.get(DcMotor.class, "Winch");
+        tilt1 = opMode.hardwareMap.get(Servo.class, "Tilt1");
+        tilt2 = opMode.hardwareMap.get(Servo.class, "Tilt2");
+
+        // Set up Tilt in up position
+        tiltUp();
     }
 
     public void moveGrabberUp(double power) {
-        grabber.setPower(power);
+        grabber.setPower(abs(power));
     }
 
-    public void stopGrabberMotor() {
+    public void moveGrabberDown(double power) {
+        grabber.setPower(-abs(power));
+    }
+
+    public void moveGrabberUpTime(double power, long time) {
+        moveGrabberUp(power);
+        opMode.sleep(time);
+        stopGrabber();
+    }
+
+    public void moveGrabberDownTime(double power, long time) {
+        moveGrabberDown(power);
+        opMode.sleep(time);
+        stopGrabber();
+    }
+
+
+    public void stopGrabber() {
         grabber.setPower(0);
     }
 
-    public void moveGrabberDownTime(double power, long time) throws InterruptedException {
-        moveGrabberDown(power);
-        Thread.sleep(time);
-        stopGrabberMotor();
+    public void spinIn(double power) {
+        spinner.setPower(abs(power));
     }
 
-    public void moveGrabberUpTime(double power, long time) throws InterruptedException {
-        moveGrabberUp(power);
-        Thread.sleep(time);
-        stopGrabberMotor();
-    }
-    
-    public void moveWinchDown(double power) {
-        winch.setPower(-power);
+    public void spinOut(double power) {
+        spinner.setPower(-abs(power));
     }
 
-    public void moveWinchUp(double power) {
-        winch.setPower(power);
+    public void spinInTime(double power, long time) {
+        spinIn(power);
+        opMode.sleep(time);
+        stopSpinner();
     }
 
-    public void stopWinchMotor() {
-        winch.setPower(0);
+    public void spinOutTime(double power, long time) {
+        spinOut(power);
+        opMode.sleep(time);
+        stopSpinner();
     }
 
-    public void moveWinchDownTime(double power, long time) throws InterruptedException {
-        moveWinchDown(power);
-        Thread.sleep(time);
-        stopWinchMotor();
+    public void stopSpinner() {
+        spinner.setPower(0);
     }
 
-    public void moveWinchUpTime(double power, long time) throws InterruptedException {
-        moveWinchUp(power);
-        Thread.sleep(time);
-        stopWinchMotor();
+    public void tiltUp() {
+        tilt1.setPosition(0);
+        tilt2.setPosition(0);
     }
+
+    public void tiltDown() {
+        tilt1.setPosition(0.5);
+        tilt2.setPosition(0.5);
+    }
+
 
 }

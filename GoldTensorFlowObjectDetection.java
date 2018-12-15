@@ -83,25 +83,28 @@ public class GoldTensorFlowObjectDetection {
      * Detection engine.
      */
     private TFObjectDetector tfod;
-    private HardwareMap hardwareMap;
 
     String goldLocation = "";
 
-    public void init(HardwareMap hardwareMap1) {
+    private LinearOpMode opMode;
+
+    public void init(LinearOpMode op) {
+        this.opMode = op;
 
         // The TFObjectDetector uses the camera frames from the VuforiaLocalizer, so we create that
         // first.
-        this.hardwareMap = hardwareMap1;
-
         initVuforia();
 
         if (ClassFactory.getInstance().canCreateTFObjectDetector()) {
             initTfod();
         } else {
-            // TODO : Error log
-            // telemetry.addData("Sorry!", "This device is not compatible with TFOD");
+            // Error log
+            opMode.telemetry.addData("Sorry!", "This device is not compatible with TFOD");
         }
 
+    }
+
+    public void activate() {
         /** Activate Tensor Flow Object Detection. */
         if (tfod != null) {
             tfod.activate();
@@ -109,6 +112,7 @@ public class GoldTensorFlowObjectDetection {
     }
 
     public String getGoldLocation() {
+
         if (tfod != null) {
             // getUpdatedRecognitions() will return null if no new information is available since
             // the last time that call was made.
@@ -136,6 +140,9 @@ public class GoldTensorFlowObjectDetection {
                             goldLocation = "Center";
                         }
                     }
+                }
+                else {
+                    opMode.telemetry.addData("Error:", "Objects=%d", updatedRecognitions.size());
                 }
             }
         }
@@ -169,8 +176,8 @@ public class GoldTensorFlowObjectDetection {
      * Initialize the Tensor Flow Object Detection engine.
      */
     public void initTfod() {
-        int tfodMonitorViewId = hardwareMap.appContext.getResources().getIdentifier(
-            "tfodMonitorViewId", "id", hardwareMap.appContext.getPackageName());
+        int tfodMonitorViewId = opMode.hardwareMap.appContext.getResources().getIdentifier(
+            "tfodMonitorViewId", "id", opMode.hardwareMap.appContext.getPackageName());
         TFObjectDetector.Parameters tfodParameters = new TFObjectDetector.Parameters(tfodMonitorViewId);
         tfod = ClassFactory.getInstance().createTFObjectDetector(tfodParameters, vuforia);
         tfod.loadModelFromAsset(TFOD_MODEL_ASSET, LABEL_GOLD_MINERAL, LABEL_SILVER_MINERAL);
